@@ -6,362 +6,421 @@ import java.util.Scanner;
 public class TrigonometryLab{
 
     public static void main(String[] args) {
-        Scanner input = new Scanner(System.in);
-        boolean keepRunning = true;
-
-      
-        while (keepRunning) {
-            System.out.println("1. Basic Trig Calculator");
-            System.out.println("2. Angle Quadrant Finder");
-            System.out.println("3. Right Triangle Solver");
-            System.out.println("4. Trig Identity Checker");
-            System.out.println("5. Coordinate Converter");
-            System.out.println("0. Exit Program");
-            System.out.print("Choose a problem to solve (0-5): ");
-
-            int choice = input.nextInt();
-
-            
-            switch (choice) {
-                case 1:
-                    problem1(input);
-                    break;
-                case 2:
-                    problem2(input);
-                    break;
-                case 3:
-                    problem3(input);
-                    break;
-                case 4:
-                    problem4(input);
-                    break;
-                case 5:
-                    problem5(input);
-                    break;
-                case 0:
-                    keepRunning = false; 
- 
-                    break;
-                default:
-                    System.out.println("Please pick a number from 0 to 5.");
-            }
-        }
-
-        
-        input.close();
-    }
-
-    /**
-     * Problem 1: Calculates sin, cos, or tan for an angle.
-     */
-    public static void problem1(Scanner input) {
-        System.out.println("\n--- Problem 1: Basic Trig Calculator ---");
-        System.out.print("Enter an angle in degrees: ");
+      System.out.println("Trigonometric Function Calculator!!!");
+        System.out.println("input an angle in degrees my duds");
+        Scanner input=new Scanner(System.in) ;
         double degrees = input.nextDouble();
-
-        System.out.println("Which function do you want?");
-        System.out.println("  1: Sine | 2: Cosine | 3: Tangent | 4: All Three");
-        System.out.print("Your choice: ");
+                
+        System.out.println("Choose a function:");
+        System.out.println("1: Sine");
+        System.out.println("2: Cosine");
+        System.out.println("3: Tangent");
+        System.out.println("4: All three");
+        
         int choice = input.nextInt();
-
-      
         double radians = Math.toRadians(degrees);
-
-        if (choice == 1) {
-            System.out.printf("Sine(%.1f°) = %.4f%n",  Math.sin(radians));
-        } else if (choice == 2) {
-            System.out.printf("Cosine(%.1f°) = %.4f%n", Math.cos(radians));
-        } else if (choice == 3) {
-           
-            if (Math.abs(degrees % 180 - 90) < 0.001) {
-                System.out.println("Tangent at "  + "° is undefined");
-            } else {
-                System.out.printf("Tangent(%.1f°) = %.4f%n",  Math.tan(radians));
-            }
-        } else if (choice == 4) {
-            System.out.printf("Sine(%.1f°) = %.4f%n",  Math.sin(radians));
-            System.out.printf("Cosine(%.1f°) = %.4f%n",  Math.cos(radians));
-            if (Math.abs(degrees % 180 - 90) < 0.001) {
-                System.out.println("Tangent at "  + "° is undefined");
-            } else {
-                System.out.printf("Tangent(%.1f°) = %.4f%n",  Math.tan(radians));
-            }
-        } else {
-            System.out.println("Invalid choice.");
-        }
-    }
-
-    /*
-     Why convert to radians?
-Java's math functions only understand radians, not degrees. We have to convert so the computer can do the math correctly.
-
-What makes tangent undefined?
-Tangent is sin / cos. At 90° and 270°, cos is zero. You can't divide by zero, so tangent is undefined.
-
-How to add reciprocal functions?
-Just flip the original functions: csc = 1 / sin, sec = 1 / cos, and cot = 1 / tan. Add menu options and check for division by zero.
-     */
-
-    /**
-     * Problem 2: Finds which quadrant an angle is in.
-     */
-    public static void problem2(Scanner input) {
-        System.out.println("Problem 2: Angle Quadrant Finder");
-        System.out.print("Enter an angle in degrees: ");
-        double degrees = input.nextDouble();
-
-       
-        double normalizedAngle = (degrees % 360 + 360) % 360;
-        System.out.printf("%.1f° is in the same direction as %.1f°.%n", degrees, normalizedAngle);
         
         
-        if (normalizedAngle == 0 || normalizedAngle == 360) {
-            System.out.println("It's on the positive X-axis (the line to the right).");
-        } else if (normalizedAngle == 90) {
-            System.out.println("It's on the positive Y-axis (the line going up).");
-        } else if (normalizedAngle == 180) {
-            System.out.println("It's on the negative X-axis (the line to the left).");
-        } else if (normalizedAngle == 270) {
-            System.out.println("It's on the negative Y-axis (the line going down).");
-        }
-     
-        else if (normalizedAngle < 90) {
-            System.out.println("It's in Quadrant I (top-right).");
-        } else if (normalizedAngle < 180) {
-            System.out.println("It's in Quadrant II (top-left).");
-        } else if (normalizedAngle < 270) {
-            System.out.println("It's in Quadrant III (bottom-left).");
-        } else {
-            System.out.println("It's in Quadrant IV (bottom-right).");
-        }
-    }
-
-    /*
-    Problem 2: Angle Quadrant Detector
-    Why normalize angles?
-    To make things simple. An angle like 400° points the same way as 40°. Normalizing gets rid of the extra spins to get an easy number between 0° and 360°.
-
-    How do signs change across quadrants?
-    The signs match the (x, y) coordinates on a graph. cos is like x, sin is like y. In the top-left quadrant (II), x is negative and y is positive, so cos is negative and sin is positive.
-
-    What's special about angles on axes?
-    They aren't in any quadrant; they're the boundaries. At these angles, sin or cos is zero, which can make other functions undefined.
-     */
-
-    /**
-     * Problem 3: Solves a right triangle.
-     */
-    public static void problem3(Scanner input) {
-        System.out.println("Problem 3: Right Triangle Solver");
-       
-        double a = 0, b = 0, c = 0, angleA = 0, angleB = 0;
-
-        System.out.println("What pieces of the triangle puzzle do you have?");
-        System.out.println("  1: Two Sides");
-        System.out.println("  2: One Side and One Angle");
-        System.out.print("Your choice: ");
-        int choice = input.nextInt();
-
-        if (choice == 1) { 
-            System.out.println("Which two sides? (c is the long one, the hypotenuse)");
-            System.out.println("  1: The two shorter legs (a and b)");
-            System.out.println("  2: A short leg and the hypotenuse (a and c)");
-            System.out.print("Your choice: ");
-            int sideChoice = input.nextInt();
-
-            if (sideChoice == 1) { 
-                System.out.print("Enter length of leg 'a': ");
-                a = input.nextDouble();
-                System.out.print("Enter length of leg 'b': ");
-                b = input.nextDouble();
-
-                
-                c = Math.sqrt(a * a + b * b);
-                
-                angleA = Math.toDegrees(Math.atan(a / b));
-                angleB = 90 - angleA; 
-            } else { 
-                System.out.print("Enter length of the short leg: ");
-                a = input.nextDouble();
-                System.out.print("Enter length of the hypotenuse 'c': ");
-                c = input.nextDouble();
-
-               
-                if (a >= c) {
-                    System.out.println("Error! The hypotenuse 'c' must be the longest side.");
-                    return;
-                }
-                
-                b = Math.sqrt(c * c - a * a);
-                angleA = Math.toDegrees(Math.asin(a / c));
-                angleB = 90 - angleA;
-            }
-        } else { 
-            System.out.print("Enter the side's length: ");
-            double side = input.nextDouble();
-            System.out.print("Enter the angle in degrees (not the 90° one): ");
-            angleA = input.nextDouble();
-
-         
-            if (angleA <= 0 || angleA >= 90) {
-                System.out.println("Error! The angle must be between 0 and 90 degrees.");
-                return;
-            }
-
-            angleB = 90 - angleA;
-            double angleARad = Math.toRadians(angleA);
-
-            System.out.println("How is the side related to the angle? (SOH CAH TOA)");
-            System.out.println("  1: It's OPPOSITE the angle");
-            System.out.println("  2: It's ADJACENT (next to) the angle");
-            System.out.println("  3: It's the HYPOTENUSE (the long one)");
-            System.out.print("Your choice: ");
-            int relationChoice = input.nextInt();
-            
-            
-            if (relationChoice == 1) { 
-                a = side;
-                b = a / Math.tan(angleARad); 
-                c = a / Math.sin(angleARad); 
-            } else if (relationChoice == 2) { 
-                b = side;
-                a = b * Math.tan(angleARad); 
-                c = b / Math.cos(angleARad); 
-            } else { 
-                c = side;
-                a = c * Math.sin(angleARad); 
-                b = c * Math.cos(angleARad); 
-            }
-        }
-
-        System.out.println("Triangle Solved");
-        System.out.printf("Sides: a=%.2f, b=%.2f, c=%.2f%n", a, b, c);
-        System.out.printf("Angles: A=%.2f°, B=%.2f°, C=90°%n", angleA, angleB);
-        System.out.printf("Area: %.2f%n", 0.5 * a * b);
-    }
-
-    /*
-    Problem 3: Right Triangle Solver
-Why must angles be < 90°?
-A triangle's angles add up to 180°. A right triangle already uses 90°, leaving only 90° for the other two angles to share.
-
-How does the program handle different cases?
-It uses if-else statements. Based on your input (e.g., two sides), it chooses the correct formulas (Pythagorean Theorem or SOH CAH TOA) to solve the triangle.
-
-What if you enter invalid values?
-The program validates the input. If you enter something impossible (like a leg longer than the hypotenuse), it will show an error message instead of crashing.
-     */
-
-
-    /**
-     * Problem 4: Checks if famous trig identities are true.
-     */
-    public static void problem4(Scanner input) {
-        System.out.println("Problem 4: Trig Identity Checker ");
         
-      
-        final double TOLERANCE = 0.00000001;
-
-        System.out.print("Enter an angle in degrees to test: ");
-        double degrees = input.nextDouble();
-        double radians = Math.toRadians(degrees);
-
-       
-        System.out.println("\nChecking: sin²(θ) + cos²(θ) = 1");
-        double leftSide1 = Math.pow(Math.sin(radians), 2) + Math.pow(Math.cos(radians), 2);
-        double rightSide1 = 1.0;
-        System.out.printf("  Left side result:  %.8f%n", leftSide1);
-        System.out.printf("  Right side result: %.8f%n", rightSide1);
-        if (Math.abs(leftSide1 - rightSide1) < TOLERANCE) {
-            System.out.println("  Result: Looks TRUE");
-        } else {
-            System.out.println("  Result: Something is wrong. ");
+        if (choice==1){
+            System.out.println("Sine:" + Math.sin(radians));
         }
-
-        
-        System.out.println("\nChecking: 1 + tan²(θ) = sec²(θ)");
-      
-        if (Math.abs(Math.cos(radians)) < TOLERANCE) {
-            System.out.println("  Result: This identity is UNDEFINED at this angle.");
-        } else {
-            double leftSide2 = 1 + Math.pow(Math.tan(radians), 2);
-            double secant = 1 / Math.cos(radians);
-            double rightSide2 = Math.pow(secant, 2);
-            System.out.printf("  Left side result:  %.8f%n", leftSide2);
-            System.out.printf("  Right side result: %.8f%n", rightSide2);
-            if (Math.abs(leftSide2 - rightSide2) < TOLERANCE) {
-                System.out.println("  Result: Looks TRUE");
-            } else {
-                System.out.println("  Result: Something is wrong");
+        else if (choice==2){
+            System.out.println("Cosine:" + Math.cos(radians));
+        }
+        else if (choice==3){
+            if(Math.abs(degrees % 180)==90){
+                System.out.println("Tangent: undefined bro");
+        }   else {
+                System.out.println("Tangent:" + Math.tan(radians));
             }
         }
-    }
-
-    /*
-     Problem 4: Trigonometric Identity Verifier
-Why use a tolerance?
-Computers have tiny rounding errors with decimals (e.g., 0.99999... instead of 1). A tolerance checks if numbers are "close enough" to be considered equal.
-
-Which identity has the most issues?
-The one with tan and sec. Both divide by cos, so when cos is almost zero, the results get huge and tiny errors are magnified.
-
-How to check more identities easily?
-Create a reusable method. It would take two formulas (left and right sides) and an angle, then automatically do the calculation and tolerance check. */
-     
-    /**
-     * Problem 5: Converts between (x, y) and (r, θ) coordinates.
-     */
-    public static void problem5(Scanner input) {
-        System.out.println("Problem 5: Coordinate Converter");
-        System.out.println("Which way do you want to convert?");
-        System.out.println("  1: Polar (radius, angle) -> to -> Cartesian (x, y)");
-        System.out.println("  2: Cartesian (x, y)      -> to -> Polar (radius, angle)");
-        System.out.print("Your choice: ");
-        int choice = input.nextInt();
-
-        if (choice == 1) { 
-            System.out.print("Enter the radius 'r': ");
-            double r = input.nextDouble();
-            System.out.print("Enter the angle in degrees: ");
-            double thetaDegrees = input.nextDouble();
-
+        else if (choice==4){
+            System.out.println("Sine:" + Math.sin(radians));
+            System.out.println("Cosine:" + Math.cos(radians));
             
-            double thetaRadians = Math.toRadians(thetaDegrees);
-            double x = r * Math.cos(thetaRadians);
-            double y = r * Math.sin(thetaRadians);
-            System.out.printf("The (x, y) coordinates are (%.3f, %.3f)%n", x, y);
+            if(Math.abs(degrees % 180)==90){
+                System.out.println("Tangent: undefined bro");
+        }   else {
+                System.out.println("Tangent:" + Math.tan(radians));
+            }}
+        
+        
+        /* critical questions
+            1.Why convert degrees to radians?
+            Computers do their angle math using radians, not degrees. 
+            We have to convert so the computer understands the number we give it.
 
-        } else if (choice == 2) { // Cartesian to Polar
-            System.out.print("Enter the 'x' coordinate: ");
-            double x = input.nextDouble();
-            System.out.print("Enter the 'y' coordinate: ");
-            double y = input.nextDouble();
+            2.Why is tangent undefined?
+            Tangent is calculated as sine divided by cosine. At 90° and 270°,
+            cosine is zero, and you can't divide by zero in math.
 
+            3.How do you add reciprocal functions?
+            Just add new menu options and the calculations for them:
+            Cosecant = 1 / sine
+            Secant = 1 / cosine
+            Cotangent = 1 / tangent
+            You also need to add checks to prevent dividing by zero for each new function.
+        */
+        
+        
+        System.out.println("trigo problem number 2");
+        System.out.println("input an angle in degrees");
+        double angleProb2 = input.nextDouble();
+        double normalizedAngle= angleProb2 % 360;
+        if (normalizedAngle < 0){normalizedAngle += 360;}
+        System.out.println("angle is normalized to " + normalizedAngle);
+        
+        /* need e normalized kay biskan unsa ka dako like 670degrees kay ma convert ra siya ug
+            katumbas ras 0degrees to 360degrees
+            "normalizedAngle < 0" meaning negative numbers
+            "normalizedAngle += 360" ma convert ang negative to postive, dugangag 360. 
+            ingani siya "normalizedAngle = normalizedAngle + 360"
+        */
+        
+        
+        if (normalizedAngle == 0) {
+                System.out.println("the angle is on the positive X-axis.");
+                System.out.println("Sine is Zero, Cosine is Positive, Tangent is Zero.");
+            } else if (normalizedAngle == 90) {
+                System.out.println("The angle is on the positive Y-axis.");
+                System.out.println("Sine is Positive, Cosine is Zero, Tangent is Undefined.");
+            } else if (normalizedAngle == 180) {
+                System.out.println("The angle is on the negative X-axis.");
+                System.out.println("Sine is Zero, Cosine is Negative, Tangent is Zero.");
+            } else if (normalizedAngle == 270) {
+                System.out.println("The angle is on the negative Y-axis.");
+                System.out.println("Sine is Negative, Cosine is Zero, Tangent is Undefined.");
+            }
             
-            double r = Math.sqrt(x * x + y * y);
             
-          
-            double thetaRadians = Math.atan2(y, x);
-            double thetaDegrees = Math.toDegrees(thetaRadians);
-            
-            
-            thetaDegrees = (thetaDegrees % 360 + 360) % 360;
-
-            System.out.printf("The Polar coordinates are (radius=%.3f, angle=%.3f°)%n", r, thetaDegrees);
-        } else {
-            System.out.println("Invalid choice.");
-        }
-    }
+            else if (normalizedAngle > 0 && normalizedAngle < 90) {
+                System.out.println("The angle is in Quadrant I.");
+                System.out.println("Sine: Positive (+)");
+                System.out.println("Cosine: Positive (+)");
+                System.out.println("Tangent: Positive (+)");
+            } else if (normalizedAngle > 90 && normalizedAngle < 180) {
+                System.out.println("The angle is in Quadrant II.");
+                System.out.println("Sine: Positive (+), Cosine: Negative (-), Tangent: Negative (-)");
+            } else if (normalizedAngle > 180 && normalizedAngle < 270) {
+                System.out.println("The angle is in Quadrant III.");
+                System.out.println("Sine: Negative (-), Cosine: Negative (-), Tangent: Positive (+)");
+            } else if (normalizedAngle > 270 && normalizedAngle < 360) {
+                System.out.println("The angle is in Quadrant IV.");
+                System.out.println("Sine: Negative (-), Cosine: Positive (+), Tangent: Negative (-)");
+            }
     
-    /*
-     Problem 5: Wave Analyzer Answers
-How did you determine if the wave is at a peak or trough?
-A sine wave is at a peak (its highest point, +1) when the angle is 90°. It's at a trough (its lowest point, -1) at 270°. The code just checks if the angle matches these values.
+        /* critical questions
+            1. Why normalize angles?
+            To simplify any angle (like 450° or -90°) to a value between 0° and 360°,
+            which makes finding its quadrant easy.
 
-What mathematical approach did you use to find the next peak?
-Peaks repeat every 360°. The program starts at the first peak (90°) and keeps adding 360° until it finds the next peak that comes after the user's input angle.
+            2.How do function signs change?
+            The signs change in each quadrant. The easiest way to remember which function 
+            is positive is with the phrase "All Students Take Calculus":
+            Q1: All
+            Q2: Sine
+            Q3: Tangent
+            Q4: Cosine
 
-How would you modify this program to handle non-sinusoidal waves?
-You would need more advanced math. Simple trig wouldn't work. You'd have to use calculus (to find where the slope is zero) or other complex methods to analyze irregular wave shapes.
-     */
+            3. What's special about angles on the axes?
+            Angles on an axis (0°, 90°, 180°, 270°) aren't in any quadrant. On these lines,
+            sine or cosine is zero, which can make other functions like tangent become zero
+            or undefined.
+    */
+    
+        System.out.println("Problem 3: Right Triangle Solver");
+        System.out.println("which elements you know?");
+        System.out.println("1. two sides");
+        System.out.println("2. one side and one angle ");
+        int choiceProb3 = input.nextInt();
+        
+        if (choiceProb3 == 1) {
+            System.out.println("do you know the hypotenouse?");
+            System.out.println("1.yes");
+            System.out.println("2.no");
+            int choiceSulodSaProb3 = input.nextInt();
+
+            if (choiceSulodSaProb3 == 1) { // User knows hypotenuse (c) and one leg (a)
+                System.out.println("input the hypotenouse");
+                double c = input.nextDouble();
+                System.out.println("input the other side");
+                double a = input.nextDouble();
+
+                if (c <= a || a <= 0) {
+                    System.out.println("Error: Dapat mas taas ang hypotenuse kaysa sa leg, ug dapat positive ang values.");
+                } else {
+                    double b = Math.sqrt((c * c) - (a * a)); 
+
+                    double angleA = Math.toDegrees(Math.asin(a / c));
+                    double angleB = 90 - angleA;
+                    double area = 0.5 * a * b;
+
+                    System.out.println("Results:");
+                    System.out.println("Missing Side (b): " + b);
+                    System.out.println("Angle A: " + angleA + " degrees");
+                    System.out.println("Angle B: " + angleB + " degrees");
+                    System.out.println("Area: " + area);
+                }
+
+            } else if (choiceSulodSaProb3 == 2) { // User knows the two legs (a and b)
+                System.out.println("input the first side");
+                double a = input.nextDouble(); // 'firstSide'
+                System.out.println("input the second side");
+                double b = input.nextDouble(); // 'secondSide'
+
+                if (a <= 0 || b <= 0) {
+                    System.out.println("Error: Dapat positive ang values sa sides.");
+                } else {
+                    double c = Math.sqrt((a * a) + (b * b)); // 'thirdSide'
+
+                    double angleA = Math.toDegrees(Math.atan(a / b));
+                    double angleB = 90 - angleA;
+                    double area = 0.5 * a * b;
+
+                    System.out.println("Results:");
+                    System.out.println("Missing Side (Hypotenuse): " + c);
+                    System.out.println("Angle A: " + angleA + " degrees");
+                    System.out.println("Angle B: " + angleB + " degrees");
+                    System.out.println("Area: " + area);
+                }
+            }
+
+        } else if (choiceProb3 == 2) {
+            System.out.println("input the side");
+            double side = input.nextDouble();
+            System.out.println("input the angle");
+            double angleA = input.nextDouble(); 
+            
+            if (side <= 0 || angleA <= 0 || angleA >= 90) {
+                System.out.println("Error: Dapat positive ang side ug ang angle kay tali sa 0 ug 90.");
+            } else {
+                double angleB = 90 - angleA; 
+                double angleA_rad = Math.toRadians(angleA); 
+
+                System.out.println("which side?");
+                System.out.println("1.Hypotenuse");
+                System.out.println("2.Opposite");
+                System.out.println("3.Adjacent");
+                int whichSide = input.nextInt(); 
+
+                double a = 0, b = 0, c = 0;
+
+                if (whichSide == 1) { // Hypotenuse (c)
+                    c = side;
+                    a = c * Math.sin(angleA_rad);
+                    b = c * Math.cos(angleA_rad);
+                } else if (whichSide == 2) { // Opposite (a)
+                    a = side;
+                    c = a / Math.sin(angleA_rad);
+                    b = a / Math.tan(angleA_rad);
+                } else if (whichSide == 3) { // Adjacent (b)
+                    b = side;
+                    c = b / Math.cos(angleA_rad);
+                    a = b * Math.tan(angleA_rad);
+                } else {
+                    System.out.println("Invalid choice.");
+                }
+
+                double area = 0.5 * a * b;
+
+                System.out.println("Results");
+                System.out.println("Side a (Opposite): " + a);
+                System.out.println("Side b (Adjacent): " + b);
+                System.out.println("Side c (Hypotenuse): " + c);
+                System.out.println("Angle A: " + angleA + " degrees");
+                System.out.println("Angle B: " + angleB + " degrees");
+                System.out.println("Area: " + area);
+            }
+        }
+    /* critical questions
+            1. Why must we validate that angles are less than 90°?
+            Because all three angles in a triangle must add up to 180°. A right
+            triangle already has a 90° angle, so the other two angles must share
+            the remaining 90°. An angle of 90° or more would make this impossible.
+
+            2. How does your program handle the different cases?
+            The program uses menus and "if-else" statements. It first asks the user
+            what they know (e.g., "two sides"). Based on their choice, it runs only
+            the block of code that contains the correct formulas for that specific case.
+
+            3. What would happen if a user entered values that don't form a valid right triangle?
+            It would cause a math error. For example, if a leg is longer than the
+            hypotenuse, the program would try to find the square root of a negative
+            number, resulting in "NaN" (Not a Number). Input validation is used to
+            prevent these errors and warn the user.
+    */
+
+    
+    
+        
+        System.out.println("Problem 4: Trigonometric Identity Verifier");
+        System.out.print("Enter an angle in degrees: ");
+        double angleDegP4 = input.nextDouble();
+
+        double angleRadP4 = Math.toRadians(angleDegP4);
+
+        // Gamay ra ni nga value para sa atong 'allowance' kung mag-compare ta'g decimal
+        double tolerance = 0.000001;
+
+        // I-check nato: sin^2(θ) + cos^2(θ) = 1 
+        System.out.println("Verifying: sin^2(θ) + cos^2(θ) = 1");
+        double sinValP4 = Math.sin(angleRadP4);
+        double cosValP4 = Math.cos(angleRadP4);
+        
+        double leftSide1 = (sinValP4 * sinValP4) + (cosValP4 * cosValP4);
+        double rightSide1 = 1.0;
+
+        // check kung ang difference nila kay gamay ra sa atong tolerance
+        if (Math.abs(leftSide1 - rightSide1) < tolerance) {
+            System.out.println("Result: The identity holds true.");
+        } else {
+            System.out.println("Result: The identity does NOT hold true.");
+            System.out.println("Difference: " + Math.abs(leftSide1 - rightSide1));
+        }
+
+        // check nato: 1 + tan^2(θ) = sec^2(θ) 
+        System.out.println("Verifying: 1 + tan^2(θ) = sec^2(θ)");
+        
+        // Check sa nato kung undefined ba ni nga angle (kung ang cos(θ) kay zero)
+        if (Math.abs(cosValP4) < tolerance) {
+            System.out.println("Result: Cannot verify. Tangent and Secant are undefined at this angle.");
+        } else {
+            double tanValP4 = Math.tan(angleRadP4);
+            double secValP4 = 1 / cosValP4; // Ang secant kay 1/cos man
+            
+            double leftSide2 = 1 + (tanValP4 * tanValP4);
+            double rightSide2 = secValP4 * secValP4;
+
+            if (Math.abs(leftSide2 - rightSide2) < tolerance) {
+                System.out.println("Result: The identity holds true.");
+            } else {
+                System.out.println("Result: The identity does NOT hold true.");
+                System.out.println("Difference: " + Math.abs(leftSide2 - rightSide2));
+            }
+        
+
+        // check nato: sin(2θ) = 2sin(θ)cos(θ) 
+        System.out.println("Verifying: sin(2θ) = 2sin(θ)cos(θ)");
+        double leftSide3 = Math.sin(2 * angleRadP4);
+        double rightSide3 = 2 * sinValP4 * cosValP4;
+        
+        if (Math.abs(leftSide3 - rightSide3) < tolerance) {
+            System.out.println("Result: The identity holds true.");
+        } else {
+            System.out.println("Result: The identity does NOT hold true.");
+            System.out.println("Difference: " + Math.abs(leftSide3 - rightSide3));
+        }
+        
+        /* critical questions
+            1. Why do we need a tolerance when comparing floating-point values?
+            Computers have tiny rounding errors with decimals (e.g., 0.9999999 instead
+            of 1.0). A tolerance lets us check if two numbers are "close enough" to
+            be considered equal.
+
+            2. Which identity might be most susceptible to floating-point precision issues and why?
+            The "1 + tan^2(θ) = sec^2(θ)" identity is most susceptible. Both tan() and
+            sec() divide by cosine, and dividing by a near-zero number (when the angle
+            is near 90°) can magnify small errors.
+
+            3. How could you extend this program to verify more complex identities?
+            You can simply add a new "if-else" block for each new identity you want to
+            check. Inside the block, you calculate the left side and right side of
+            the new formula and compare them like the others.
+        */
+        // Ibutang ni sa imong main method, kung asa pilion sa user ang Problem 5
+        
+        System.out.println("Problem 5: Wave Properties Analyzer");
+        System.out.print("Enter the wave's Amplitude: ");
+        double amplitudeP5 = input.nextDouble();
+        System.out.print("Enter the wave's Frequency (in Hz): ");
+        double frequencyP5 = input.nextDouble();
+        System.out.print("Enter the Phase Shift (in degrees): ");
+        double phaseShiftDegP5 = input.nextDouble();
+        System.out.print("Enter a specific Time (t): ");
+        double timeP5 = input.nextDouble();
+
+        // --- I-check nato kung valid ba ang input ---
+        if (amplitudeP5 <= 0 || frequencyP5 <= 0) {
+            System.out.println("Error: Amplitude and Frequency must be positive numbers.");
+            return; // Undanga ang program kung naay sayop
+        }
+
+        // --- Sugdan na nato ang mga Calculations ---
+        double tol = 0.000001;
+        // I-convert ang phase shift gikan sa degrees ngadto sa radians
+        double phaseShiftRadP5 = Math.toRadians(phaseShiftDegP5);
+
+        // 1. Kuhaon nato ang value sa wave anang time 't'
+        double y_t = amplitudeP5 * Math.sin(2 * Math.PI * frequencyP5 * timeP5 + phaseShiftRadP5);
+        System.out.println("Instantaneous value at time " + timeP5 + " is: " + y_t);
+
+        // 2. Tan-awon nato kung peak, trough, o zero-crossing ba siya
+        if (Math.abs(y_t - amplitudeP5) < tol) {
+            System.out.println("At this time, the wave is at a PEAK.");
+        } else if (Math.abs(y_t - (-amplitudeP5)) < tol) {
+            System.out.println("At this time, the wave is at a TROUGH.");
+        } else if (Math.abs(y_t) < tol) {
+            System.out.println("At this time, the wave is at a ZERO-CROSSING.");
+        } else {
+            System.out.println("At this time, the wave is between points.");
+        }
+
+        // Pangitaon kung kanus-a ang sunod nga peak
+        // Kuhaon ang Period (usa ka full cycle) sa wave
+        double periodP5 = 1.0 / frequencyP5;
+        // Pangitaon ang time sa pinaka-unang peak 
+        double timeOfFirstPeak = ((Math.PI / 2.0) - phaseShiftRadP5) / (2 * Math.PI * frequencyP5);
+        
+        // tan-awon pila ka period ang nilabay gikan sa first peak hangtod sa atong time 't'
+        double timeDiff = timeP5 - timeOfFirstPeak;
+        double numPeriodsPassed = Math.floor(timeDiff / periodP5);
+        
+        // Ang sunod nga peak kay ang first peak plus (pila ka periods + 1)
+        double nextPeakTime = timeOfFirstPeak + (numPeriodsPassed + 1) * periodP5;
+        
+        System.out.println("The next peak will occur at time: " + nextPeakTime);
+    
+        
+        /* critical questions
+            1. How did you determine if the wave is at a peak or trough?
+            I calculated the wave's value at that time, y(t). The wave is at a PEAK
+            if its value is equal to the positive amplitude (A), and at a TROUGH if
+            it's equal to the negative amplitude (-A). A small tolerance was used for
+            the comparison to handle decimal inaccuracies.
+
+            2. What mathematical approach did you use to find the next peak?
+            I used a period-based approach. First, I calculated the time of the very
+            first peak. Then, I found how many full wave cycles (periods) had passed
+            between that first peak and the user's given time. By adding one more
+            full period, I could find the time of the very next peak.
+
+            3. How would you modify this program to handle non-sinusoidal waves?
+            The core formula for y(t) would have to be replaced with the one that
+            describes the new wave (e.g., a square or sawtooth wave). The logic for
+            finding peaks and troughs would also need a complete rewrite, as these
+            are defined differently for other wave shapes.
+*/
+    
+    
+    }
+    }
 }
+                
+                
+                
+               
+
+            
+            
+        
+            
+        
+            
+        
+        
+
+
+
+
+
